@@ -49,7 +49,9 @@ const Signup = () => {
         minSymbols: 1,
       })
     ) {
-      setErrorInInput("Password policy not met");
+      setErrorInInput(
+        "Password policy not met. Password must contain atleast 8 characters, 1 lowercase character, 1 uppercase character, 1 numeric character and 1 special character"
+      );
       return;
     }
 
@@ -87,9 +89,7 @@ const Signup = () => {
           setPasswordInput("");
           setPasswordConfirmInput("");
           setFormValid(true);
-          setTimeout(() => {
-            setFormValid(false);
-          }, 5000);
+          setFormValid(false);
         }
       }
     );
