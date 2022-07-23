@@ -1,37 +1,49 @@
 import React, { useState } from "react";
 import validator from "validator";
-const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+import Amplify from "aws-amplify";
+import { Auth } from "aws-amplify";
+
 const Signup = () => {
-  const poolData = {
-    UserPoolId: process.env.REACT_APP_USERPOOLID,
-    ClientId: process.env.REACT_APP_CLIENTID,
-  };
-  const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  Amplify.configure({
+    Auth: {
+      mandatorySignId: true,
+      region: process.env.REGION,
+      userPoolId: process.env.REACT_APP_USERPOOLID,
+      userPoolWebClientId: process.env.REACT_APP_CLIENTID,
+    },
+  });
+
   const [errorInInput, setErrorInInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [passwordConfirmInput, setPasswordConfirmInput] = useState("");
+  const [isFormValid, setFormValid] = useState(false);
+
   const usernameInputChangeHandler = (event) => {
     setErrorInInput("");
+    setFormValid(false);
     setUsernameInput(event.target.value);
   };
-  const [emailInput, setEmailInput] = useState("");
   const emailInputChangeHandler = (event) => {
     setErrorInInput("");
+    setFormValid(false);
     setEmailInput(event.target.value);
   };
-  const [passwordInput, setPasswordInput] = useState("");
   const passwordInputChangeHandler = (event) => {
     setErrorInInput("");
+    setFormValid(false);
     setPasswordInput(event.target.value);
   };
-  const [passwordConfirmInput, setPasswordConfirmInput] = useState("");
   const passwordConfirmInputChangeHandler = (event) => {
     setErrorInInput("");
+    setFormValid(false);
     setPasswordConfirmInput(event.target.value);
   };
 
-  const [isFormValid, setFormValid] = useState(false);
-  const formSubmitHandler = (event) => {
+  const formSubmitHandler = async (event) => {
     event.preventDefault();
+    setFormValid(false);
     if (!validator.equals(passwordInput, passwordConfirmInput)) {
       setErrorInInput("Passwords do not match");
       return;
@@ -54,46 +66,35 @@ const Signup = () => {
       );
       return;
     }
-
-    const attributeList = [];
-    const attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute({
-      Name: "email",
-      Value: emailInput,
-    });
-    const attributeName = new AmazonCognitoIdentity.CognitoUserAttribute({
-      Name: "name",
-      Value: usernameInput,
-    });
-
-    attributeList.push(attributeEmail);
-    attributeList.push(attributeName);
-
-    userPool.signUp(
-      emailInput,
-      passwordInput,
-      attributeList,
-      [],
-      (error, data) => {
-        if (error) {
-          if (error.message.includes("exists")) {
-            setErrorInInput("Account already exists with given details");
-          } else {
-            setErrorInInput(
-              "An error occured while creating your account. Please try again"
-            );
-          }
-        } else {
-          setErrorInInput("");
-          setUsernameInput("");
-          setEmailInput("");
-          setPasswordInput("");
-          setPasswordConfirmInput("");
-          setFormValid(true);
-          setFormValid(false);
-        }
+    try {
+      await Auth.signUp({
+        username: emailInput,
+        password: passwordInput,
+        attributes: {
+          email: emailInput,
+          name: usernameInput,
+        },
+      });
+      setFormValid(true);
+      setErrorInInput("");
+      setUsernameInput("");
+      setEmailInput("");
+      setPasswordInput("");
+      setPasswordConfirmInput("");
+      setTimeout(() => {
+        setFormValid(false);
+      }, 5000);
+    } catch (error) {
+      if (error.message.includes("exist")) {
+        setErrorInInput("An account exists with the given details");
+      } else {
+        setEmailInput(
+          "An error occured while creating your account. Please try later."
+        );
       }
-    );
+    }
   };
+
   return (
     <div className="container mt-3">
       <h2>Signup form</h2>
