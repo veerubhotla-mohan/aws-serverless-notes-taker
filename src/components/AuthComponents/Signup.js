@@ -1,18 +1,8 @@
 import React, { useState } from "react";
 import validator from "validator";
-import Amplify from "aws-amplify";
 import { Auth } from "aws-amplify";
 
 const Signup = () => {
-  Amplify.configure({
-    Auth: {
-      mandatorySignId: true,
-      region: process.env.REGION,
-      userPoolId: process.env.REACT_APP_USERPOOLID,
-      userPoolWebClientId: process.env.REACT_APP_CLIENTID,
-    },
-  });
-
   const [errorInInput, setErrorInInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
