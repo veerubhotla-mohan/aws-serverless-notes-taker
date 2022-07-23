@@ -78,7 +78,7 @@ const Signup = () => {
       if (error.message.includes("exist")) {
         setErrorInInput("An account exists with the given details");
       } else {
-        setEmailInput(
+        setErrorInInput(
           "An error occured while creating your account. Please try later."
         );
       }
