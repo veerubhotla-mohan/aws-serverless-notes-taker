@@ -59,7 +59,7 @@ const Signin = () => {
 
   return (
     <div className="container mt-3">
-      <h2>Signup form</h2>
+      <h2>Signin form</h2>
       <div className="row">
         <form onSubmit={formSubmitHandler}>
           <div className="form-group">
