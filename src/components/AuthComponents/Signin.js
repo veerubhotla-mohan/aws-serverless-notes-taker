@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import validator from "validator";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const navigate = useNavigate();
+  useEffect(() => {
+    async function checkAnyUser() {
+      try {
+        await Auth.currentAuthenticatedUser();
+        navigate("/myapp");
+      } catch (error) {}
+    }
+    checkAnyUser();
+  });
   const [errorInInput, setErrorInInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -21,7 +30,7 @@ const Signin = () => {
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     if (!validator.isEmail(emailInput)) {
-      setErrorInInput("Bad credentials1");
+      setErrorInInput("Bad credentials");
       return;
     }
     if (
@@ -33,19 +42,18 @@ const Signin = () => {
         minSymbols: 1,
       })
     ) {
-      setErrorInInput("Bad credentials2");
+      setErrorInInput("Bad credentials");
       return;
     }
     try {
-      const signInResponse = await Auth.signIn({
+      await Auth.signIn({
         username: emailInput,
         password: passwordInput,
       });
       setErrorInInput("");
       navigate("/myapp");
     } catch (error) {
-      console.log(error);
-      setErrorInInput("Bad credentials3");
+      setErrorInInput("Bad credentials");
     }
   };
 

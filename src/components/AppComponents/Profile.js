@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import Navigationbar from "./Navigationbar";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
-
-const MyApp = () => {
+const Profile = () => {
   const navigate = useNavigate();
   useEffect(() => {
     async function checkAnyUser() {
@@ -15,11 +13,7 @@ const MyApp = () => {
     }
     checkAnyUser();
   });
-  return (
-    <div>
-      <Navigationbar></Navigationbar>
-    </div>
-  );
+  return <div>Profile</div>;
 };
 
-export default MyApp;
+export default Profile;

@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import validator from "validator";
 import { Auth } from "aws-amplify";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    async function checkAnyUser() {
+      try {
+        await Auth.currentAuthenticatedUser();
+        navigate("/myapp");
+      } catch (error) {}
+    }
+    checkAnyUser();
+  });
   const [errorInInput, setErrorInInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");

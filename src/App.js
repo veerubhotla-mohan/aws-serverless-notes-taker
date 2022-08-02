@@ -4,6 +4,7 @@ import Signin from "./components/AuthComponents/Signin";
 import Signup from "./components/AuthComponents/Signup";
 import MyApp from "./components/AppComponents/MyApp";
 import Amplify from "aws-amplify";
+import Profile from "./components/AppComponents/Profile";
 
 function App() {
   Amplify.configure({
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/myapp" element={<MyApp />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );
