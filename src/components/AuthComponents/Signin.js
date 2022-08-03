@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import validator from "validator";
 import { Auth } from "aws-amplify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -109,6 +109,7 @@ const Signin = () => {
           {errorInInput}
         </span>
       </div>
+      <Link to="/forgotPassword">Forgot Password?</Link>
     </div>
   );
 };
