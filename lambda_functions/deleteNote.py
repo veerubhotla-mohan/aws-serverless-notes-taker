@@ -6,7 +6,6 @@ notesTable = dynamodb.Table(os.environ['dynamodbTable'])
 
 
 def lambda_handler(event, context):
-    # TODO implement
     notesTable.delete_item(Key={"username": event["username"],
                                 "creation_timestamp": event["creation_timestamp"]})
 

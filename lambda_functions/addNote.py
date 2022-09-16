@@ -6,7 +6,6 @@ notesTable = dynamodb.Table(os.environ['dynamodbTable'])
 
 
 def lambda_handler(event, context):
-    # TODO implement
     print(event)
     notesTable.put_item(Item={
         "username": event["username"],
