@@ -72,6 +72,22 @@ const MyApp = () => {
       console.log(error);
     }
   };
+  const deleteNoteHandler = async (event, creation_timestamp) => {
+    event.preventDefault();
+    await axios({
+      method: "delete",
+      url: process.env.REACT_APP_APIGATEWAYURL,
+      headers: {
+        Authorization: loggedInUserDetails.token,
+      },
+      data: {
+        creation_timestamp: creation_timestamp,
+      },
+      params: {
+        username: loggedInUserDetails.name,
+      },
+    });
+  };
   return (
     <div className="text-center">
       <Navigationbar></Navigationbar>
@@ -95,7 +111,13 @@ const MyApp = () => {
             return (
               <div key={index} className="mt-3">
                 <h3>{note.note}</h3>
-                <button>Delete</button>
+                <button
+                  onClick={(event) =>
+                    deleteNoteHandler(event, note.creation_timestamp)
+                  }
+                >
+                  Delete
+                </button>
                 <button className="ms-5">Edit</button>
               </div>
             );

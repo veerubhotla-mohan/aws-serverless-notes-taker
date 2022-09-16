@@ -7,12 +7,9 @@ notesTable = dynamodb.Table(os.environ['dynamodbTable'])
 
 def lambda_handler(event, context):
     # TODO implement
-    print(event)
-    notesTable.put_item(Item={
-        "username": event["username"],
-        "creation_timestamp": event["creation_timestamp"],
-        "note": event["note"]
-    })
+    notesTable.delete_item(Key={"username": event["username"],
+                                "creation_timestamp": event["creation_timestamp"]})
+
     return {
         'statusCode': 200,
     }
