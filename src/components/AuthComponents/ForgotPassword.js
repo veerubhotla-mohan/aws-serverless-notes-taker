@@ -65,11 +65,9 @@ const ForgotPassword = () => {
               />
             </div>
           </div>
-
           <span className={`${codeSentInfo ? "text-info" : "d-none"}`}>
             Code sent to the email if account exists with the provided email
           </span>
-
           <div className="form-group">
             <div className="col-sm-10 mt-3">
               <button type="submit" className="btn btn-primary">
@@ -143,5 +141,4 @@ const ForgotPassword = () => {
     </div>
   );
 };
-
 export default ForgotPassword;

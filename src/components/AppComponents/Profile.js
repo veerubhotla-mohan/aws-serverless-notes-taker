@@ -26,10 +26,7 @@ const Profile = () => {
     setNewPasswordInput(event.target.value);
     setErrorInChangePassword("");
   };
-  const [newNameInput, setNewNameInput] = useState("");
-  const nameChangeHandler = (event) => {
-    setNewNameInput(event.target.value);
-  };
+
   const changePasswordFormSubmitHandler = async (event) => {
     event.preventDefault();
     try {
@@ -61,15 +58,7 @@ const Profile = () => {
         );
     }
   };
-  const changeNameSubmitHandler = async (event) => {
-    event.preventDefault();
-    const currentUser = await Auth.currentAuthenticatedUser();
-    try {
-      await Auth.updateUserAttributes(currentUser, {
-        name: newNameInput,
-      });
-    } catch (error) {}
-  };
+
   return (
     <div>
       <Navigationbar></Navigationbar>
@@ -136,34 +125,6 @@ const Profile = () => {
           >
             Successfully changed your password. Logging off...
           </span>
-
-          <h2 className="mt-5">Change your Name</h2>
-          <form onSubmit={changeNameSubmitHandler}>
-            <div className="form-group">
-              <label className="col-sm-2" htmlFor="newName">
-                New Name:
-              </label>
-              <div className="col-sm-10">
-                <input
-                  onChange={nameChangeHandler}
-                  value={newNameInput}
-                  required={true}
-                  type="text"
-                  className="form-control"
-                  id="newName"
-                  placeholder="Enter new name"
-                  name="newName"
-                />
-              </div>
-            </div>
-            <div className="form-group">
-              <div className="col-sm-10 mt-3">
-                <button type="submit" className="btn btn-primary">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </form>
         </div>
       </div>
     </div>

@@ -8,7 +8,7 @@ const Signin = () => {
   useEffect(() => {
     async function checkAnyUser() {
       try {
-        await Auth.currentAuthenticatedUser();
+        const loggedInUser = await Auth.currentAuthenticatedUser();
         navigate("/myapp");
       } catch (error) {}
     }
@@ -46,7 +46,7 @@ const Signin = () => {
       return;
     }
     try {
-      await Auth.signIn({
+      const loggedInUser = await Auth.signIn({
         username: emailInput,
         password: passwordInput,
       });
