@@ -118,7 +118,7 @@ const MyApp = () => {
                 >
                   Delete
                 </button>
-                <button className="ms-5">Edit</button>
+                {/* <button className="ms-5">Edit</button> */}
               </div>
             );
           })}
