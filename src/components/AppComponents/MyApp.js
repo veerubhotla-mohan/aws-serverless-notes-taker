@@ -6,7 +6,7 @@ import { useState } from "react";
 const axios = require("axios");
 const MyApp = () => {
   const navigate = useNavigate();
-  const [loggedInUserDetails, setLoggedInUserDetails] = useState();
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
   const [userNotes, setUserNotes] = useState([]);
   const [newNoteEntered, setNewNoteEntered] = useState("");
 
@@ -16,7 +16,7 @@ const MyApp = () => {
         const userLoggedin = await Auth.currentAuthenticatedUser();
         setLoggedInUserDetails({
           token: userLoggedin.signInUserSession.idToken.jwtToken,
-          name: userLoggedin.attributes.name,
+          name: userLoggedin.username,
         });
       } catch (error) {
         navigate("/");
@@ -25,26 +25,26 @@ const MyApp = () => {
     checkAnyUser();
   }, []);
 
-  useEffect(() => {
-    async function getNotes() {
-      try {
-        const notes = await axios({
-          method: "get",
-          url: process.env.REACT_APP_APIGATEWAYURL,
-          headers: {
-            Authorization: loggedInUserDetails.token,
-          },
-          params: {
-            username: loggedInUserDetails.name,
-          },
-        });
-        setUserNotes(notes.data.Items);
-      } catch (error) {
-        console.log(error);
-      }
+  async function getNotes() {
+    try {
+      const notes = await axios({
+        method: "get",
+        url: process.env.REACT_APP_APIGATEWAYURL,
+        headers: {
+          Authorization: loggedInUserDetails.token,
+        },
+        params: {
+          username: loggedInUserDetails.name,
+        },
+      });
+      setUserNotes(notes.data.Items);
+    } catch (error) {
+      console.log(error);
     }
+  }
+  useEffect(() => {
     getNotes();
-  }, [loggedInUserDetails, userNotes]);
+  }, [loggedInUserDetails]);
 
   const newNoteInputChangeHandler = (event) => {
     setNewNoteEntered(event.target.value);
@@ -68,6 +68,7 @@ const MyApp = () => {
         },
       });
       setNewNoteEntered("");
+      getNotes();
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +88,7 @@ const MyApp = () => {
         username: loggedInUserDetails.name,
       },
     });
+    getNotes();
   };
   return (
     <div className="text-center">

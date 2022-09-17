@@ -10,10 +10,12 @@ const Signup = () => {
       try {
         await Auth.currentAuthenticatedUser();
         navigate("/myapp");
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
     checkAnyUser();
-  });
+  }, []);
   const [errorInInput, setErrorInInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
@@ -69,11 +71,10 @@ const Signup = () => {
     }
     try {
       await Auth.signUp({
-        username: emailInput,
+        username: usernameInput,
         password: passwordInput,
         attributes: {
           email: emailInput,
-          name: usernameInput,
         },
       });
       setFormValid(true);
@@ -86,6 +87,7 @@ const Signup = () => {
         setFormValid(false);
       }, 5000);
     } catch (error) {
+      console.log(error);
       if (error.message.includes("exist")) {
         setErrorInInput("An account exists with the given details");
       } else {
@@ -189,3 +191,7 @@ const Signup = () => {
 };
 
 export default Signup;
+
+// mohan - veerubhotla.mohan - ExpiredCodeException: Invalid code provided, please request a code again.
+// mohan123 - veerubhotla.mohan - ExpiredCodeException: Invalid code provided, please request a code again.
+// mohan- krishna.mohan - ExpiredCodeException: Invalid code provided, please request a code again.
