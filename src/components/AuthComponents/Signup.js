@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import validator from "validator";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
-const AWS = require("aws-sdk");
 
 const Signup = () => {
-  AWS.config.region = "ap-south-1";
-  var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
   const navigate = useNavigate();
   useEffect(() => {
     async function checkAnyUser() {
@@ -192,7 +189,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-// mohan - veerubhotla.mohan - ExpiredCodeException: Invalid code provided, please request a code again.
-// mohan123 - veerubhotla.mohan - ExpiredCodeException: Invalid code provided, please request a code again.
-// mohan- krishna.mohan - ExpiredCodeException: Invalid code provided, please request a code again.

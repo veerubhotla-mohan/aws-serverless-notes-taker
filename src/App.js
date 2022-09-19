@@ -13,7 +13,7 @@ function App() {
   Amplify.configure({
     Auth: {
       mandatorySignId: true,
-      region: process.env.REGION,
+      region: process.env.REACT_APP_REGION,
       userPoolId: process.env.REACT_APP_USERPOOLID,
       userPoolWebClientId: process.env.REACT_APP_CLIENTID,
     },
