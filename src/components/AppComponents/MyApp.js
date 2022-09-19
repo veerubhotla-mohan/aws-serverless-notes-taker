@@ -96,6 +96,7 @@ const MyApp = () => {
           name="userNote"
           id="userNote"
           value={newNoteEntered}
+          required={true}
           onChange={newNoteInputChangeHandler}
         />
         <button className="btn btn-primary mt-3" type="submit">

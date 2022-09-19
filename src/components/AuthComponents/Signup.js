@@ -86,6 +86,7 @@ const Signup = () => {
         setFormValid(false);
       }, 5000);
     } catch (error) {
+      console.log(error);
       if (error.message.includes("exist")) {
         setErrorInInput("An account exists with the given details");
       } else {
