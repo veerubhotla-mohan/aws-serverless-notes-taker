@@ -2,17 +2,18 @@ import React, { useEffect, useState } from "react";
 import validator from "validator";
 import { Auth } from "aws-amplify";
 import { useNavigate } from "react-router-dom";
+const AWS = require("aws-sdk");
 
 const Signup = () => {
+  AWS.config.region = "ap-south-1";
+  var cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
   const navigate = useNavigate();
   useEffect(() => {
     async function checkAnyUser() {
       try {
         await Auth.currentAuthenticatedUser();
         navigate("/myapp");
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     checkAnyUser();
   }, []);
@@ -70,11 +71,12 @@ const Signup = () => {
       return;
     }
     try {
-      await Auth.signUp({
-        username: usernameInput,
+      const res = await Auth.signUp({
+        username: emailInput,
         password: passwordInput,
         attributes: {
           email: emailInput,
+          name: usernameInput,
         },
       });
       setFormValid(true);
@@ -87,7 +89,6 @@ const Signup = () => {
         setFormValid(false);
       }, 5000);
     } catch (error) {
-      console.log(error);
       if (error.message.includes("exist")) {
         setErrorInInput("An account exists with the given details");
       } else {

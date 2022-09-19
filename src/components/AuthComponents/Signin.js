@@ -46,10 +46,7 @@ const Signin = () => {
       return;
     }
     try {
-      const loggedInUser = await Auth.signIn({
-        username: emailInput,
-        password: passwordInput,
-      });
+      await Auth.signIn(emailInput, passwordInput);
       setErrorInInput("");
       navigate("/myapp");
     } catch (error) {

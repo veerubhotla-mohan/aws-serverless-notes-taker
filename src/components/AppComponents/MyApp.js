@@ -16,7 +16,7 @@ const MyApp = () => {
         const userLoggedin = await Auth.currentAuthenticatedUser();
         setLoggedInUserDetails({
           token: userLoggedin.signInUserSession.idToken.jwtToken,
-          name: userLoggedin.username,
+          name: userLoggedin.attributes.name,
         });
       } catch (error) {
         navigate("/");
@@ -38,9 +38,7 @@ const MyApp = () => {
         },
       });
       setUserNotes(notes.data.Items);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
   useEffect(() => {
     getNotes();
@@ -69,9 +67,7 @@ const MyApp = () => {
       });
       setNewNoteEntered("");
       getNotes();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const deleteNoteHandler = async (event, creation_timestamp) => {
     event.preventDefault();
@@ -114,13 +110,13 @@ const MyApp = () => {
               <div key={index} className="mt-3">
                 <h3>{note.note}</h3>
                 <button
+                  className="btn btn-danger"
                   onClick={(event) =>
                     deleteNoteHandler(event, note.creation_timestamp)
                   }
                 >
                   Delete
                 </button>
-                {/* <button className="ms-5">Edit</button> */}
               </div>
             );
           })}
